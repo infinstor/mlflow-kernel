@@ -1,4 +1,4 @@
-# MLFlow Kernel Documentation
+# MLFlow Kernel
 
   MLFLow Kernel connects to an MLFlow service and records all the data science activities in the notebook. MLFlow Kernel captures the cell code, the cell output and the visualizations, and records them as mlflow artifacts. Each cell execution is captured as a separate run. This happens transparently, and the user doesn't have to manage the lifecycle of a run. All the runs of these cells are grouped inside a parent run that stays alive until the life of the kernel. A new parent run is created when the kernel is restarted.
   The kernel works seamlessly with the autologging feature which is supported by many ML libraries. The user just needs to enable autologging and everything is recorded as part of cell execution run.
