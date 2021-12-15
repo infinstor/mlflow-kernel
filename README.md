@@ -23,7 +23,8 @@
 1. In the mlflow_kernel_config.json as described in the previous section, set the mlflow_tracking_uri to point to the Infinstor’s service.
 2. First time access on the notebook will prompt the user to perform the mlflow login. This will require user's infinstor username and password. Login is required for the first time only, and afterwards tokens are automatically refreshed until refreshtoken expires. The kernel must be restarted after the login.
   - mlflow login can be performed using following two lines of code from any cell
-            import infinstor_mlflow_plugin
+
+            import infinstor_mlflow_plugin  
             infinstor_mlflow_plugin.login.new_login()
 
 
@@ -35,6 +36,7 @@
   - The role attached with the kernel, must have access to the mlflow's artifact bucket. The default artifact bucket can be found in the user's profile on the infinstor's service dashboard.
   - First time access on the notebook will prompt the user to perform the mlflow login. This will require user's mlflow login and password. Login is required for the first time only, and afterwards tokens are automatically refreshed. The kernel must be restarted after the login.
   - mlflow login can be performed using following two lines of code from any cell
-            import infinstor_mlflow_plugin
+  
+            import infinstor_mlflow_plugin  
             infinstor_mlflow_plugin.login.new_login()
 
