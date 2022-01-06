@@ -55,25 +55,26 @@ class MLFlowKernel(IPythonKernel):
         else:
             logger.error("Connection file "+self.connection_file+" not found")
             exit(-1)
-
         self.load_kernel_config()
-        if self.mlflow_tracking_uri:
-            self.load_mlflow_creds()
-            try:
-                mlflow.start_run()
-                parent_run = mlflow.active_run()
-                self.parent_run_id = parent_run.info.run_id
-            except Exception as ex:
-                logger.error("Failed to start run: " + str(ex))
-                self.parent_run_id = None
-                return
-            logger.info('parent run id = ' + str(self.parent_run_id))
+        self.parent_run_id = None
+
+    def start_parent_run(self):
+        try:
+            mlflow.start_run()
+            parent_run = mlflow.active_run()
+            self.parent_run_id = parent_run.info.run_id
+        except Exception as ex:
+            logger.error("Failed to start run: " + str(ex))
+            self.parent_run_id = None
+            return
+        logger.info('parent run id = ' + str(self.parent_run_id))
 
     def load_kernel_config(self):
         config_file = os.path.join(os.path.expanduser("~"), ".jupyter", "mlflow_kernel_config.json")
         logger.info("config file: " + config_file)
         self.mlflow_tracking_uri = None
         self.debug_enabled = False
+        self.experiment_name = None
         if os.path.exists(config_file):
             with open(config_file) as cfp:
                 conf_json = json.load(cfp)
@@ -81,14 +82,22 @@ class MLFlowKernel(IPythonKernel):
             logger.info("Tracking uri: "+str(self.mlflow_tracking_uri))
             if 'debug_enabled' in conf_json and conf_json['debug_enabled'].lower() == "true":
                 self.debug_enabled = True
+            if 'default_experiment_name' in conf_json and conf_json['default_experiment_name'].lower() != "default":
+                self.experiment_name = conf_json['default_experiment_name']
 
-    def load_mlflow_creds(self):
+    def load_mlflow_env(self):
         os.environ['MLFLOW_TRACKING_URI'] = self.mlflow_tracking_uri
+        if self.experiment_name:
+            os.environ['MLFLOW_EXPERIMENT_NAME'] = self.experiment_name
 
     async def do_execute(self, code, silent, store_history=True, user_expressions=None, allow_stdin=False):
         if self.mlflow_tracking_uri:
-            self.load_mlflow_creds()
+            self.load_mlflow_env()
             try:
+                if not self.parent_run_id:
+                    self.start_parent_run()
+
+                ## Relogin if parent run still not available
                 if not self.parent_run_id:
                     logger.info("Parent run was not started, user needs to relogin")
                     if 'infinstor_mlflow_plugin.login.new_login()' in code:
