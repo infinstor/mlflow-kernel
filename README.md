@@ -11,11 +11,13 @@
 2. Configuration: Write [HOME]/.jupyter/mlflow_kernel_config.json
     - [HOME] is the home directory of the user that starts the kernel. It is usually the same as the user that starts the notebook server.
     - The content of the config file is as follows:
-      >{ 
-      >   "mlflow_tracking_uri": [mlflow tracking url],
-      >   "debug_enabled" : "false",
+      >{ <br>
+      >   "mlflow_tracking_uri": [mlflow tracking url],<br>
+      >   "debug_enabled" : "false",<br>
+      >   "default_experiment_name": [experiment name]<br>
       >}
     - The "mlflow_tracking_uri" points to the mlflow server, for example if you are using infinstor’s mlflow service, the mlflow_tracking_uri would be infinstor://mlflow.infinstor.com
+    - If default_experiment_name is not specified, the runs are created in 'default' experiment with id 0. The user should be authorized for the specified experiment or for the 'default' experiment.
 
 
 ## MLFlow Kernel with Infinstor’s MLFlow service
