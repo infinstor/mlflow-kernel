@@ -16,8 +16,8 @@
       >   "debug_enabled" : "false",<br>
       >   "default_experiment_name": [experiment name]<br>
       >}
-    - The "mlflow_tracking_uri" points to the mlflow server, for example if you are using infinstor’s mlflow service, the mlflow_tracking_uri would be infinstor://mlflow.infinstor.com
-    - If default_experiment_name is not specified, the runs are created in 'default' experiment with id 0. The user should be authorized for the specified experiment or for the 'default' experiment.
+    - The "mlflow_tracking_uri" points to the mlflow server, for example if you are using infinstor’s mlflow service, the mlflow_tracking_uri would be infinstor://mlflow.free.infinstor.com
+    - The "default_experiment_name" is the name of the experiment where runs are created. The user should be authorized to create runs under the specified experiment. The experiments can be created on the mlflow UI, as well as from mlflow CLI.
 
 
 ## MLFlow Kernel with Infinstor’s MLFlow service
