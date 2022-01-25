@@ -7,8 +7,9 @@
 
 1. pip install mlflow_kernel
     - This will install all required packages
-    - This will also setup the kernelspecs
-2. Configuration: Write [HOME]/.jupyter/mlflow_kernel_config.json
+2. python -m mlflow_kernel.install
+    - This will install mlflow-kernel in the jupyter kernelspecs
+3. Configuration: Write [HOME]/.jupyter/mlflow_kernel_config.json
     - [HOME] is the home directory of the user that starts the kernel. It is usually the same as the user that starts the notebook server.
     - The content of the config file is as follows:
       >{ <br>
